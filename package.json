@@ -3,8 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.2.1",
+    "@material-ui/icons": "^4.2.1",
+    "bootstrap": "^4.3.1",
     "react": "^16.8.6",
+    "react-bootstrap": "^1.0.0-beta.10",
     "react-dom": "^16.8.6",
+    "react-media": "^1.9.2",
+    "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1"
   },
   "scripts": {
@@ -27,5 +33,14 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+
+  "config": {
+    "nuxt": {
+      "host": "192.168.10.131",
+      "port": "3333"
+    }
+   }
+
+  
 }
