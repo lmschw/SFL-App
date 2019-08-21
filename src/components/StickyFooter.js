@@ -3,7 +3,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
-import { blue, red, grey } from '@material-ui/core/colors';
+import { red } from '@material-ui/core/colors';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -14,17 +14,15 @@ import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItem from '@material-ui/core/ListItem';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import Media from "react-media";
 import NewTest from './NewTest';
-
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import Box from '@material-ui/core/Box';
+import firebase from '../firebase';
+import {withRouter} from 'react-router-dom';
+import HomeIcon from '@material-ui/icons/Home';
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -51,12 +49,10 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(6),
     textAlign: 'center',
     color: theme.palette.text.secondary,
-    
-   
-  },
+   },
 
   icon: {
-    margin: theme.spacing(2),
+  
   },
 
   iconHover: {
@@ -72,15 +68,14 @@ const useStyles = makeStyles(theme => ({
   },
 
   footer: {
-    display: 'flex',
-    padding: theme.spacing(2),
-    marginTop: 'auto',
-    width:"100%",
+   width:'100%',
+   position:'absolute',
+   bottom:1,
+   left:0, 
   },
   middleContainer: {
-    display:'flex',
-    marginTop:'auto',
-    width:'100%'
+    width:'100%',
+    marginTop:-20
   },
   InnerMiddleContainer:{
     margin: theme.spacing(6),
@@ -104,42 +99,37 @@ const useStyles = makeStyles(theme => ({
   },
   popover: {
     pointerEvents: 'none',
-   
-
   },
 
   Logoutpaper: {
     padding: theme.spacing(1),
   
   },
-  
-}));
-
-const AbsoluteLogOut = makeStyles(theme =>({
-  LogOutBtn:{
-    position: 'absolute',
-    bottom:60,
-    right:45,
+  logOutDiv: {
+      position:'absolute',
+      top:19,
+      right:55
   },
-  LogOutTxt:{
-    position: 'absolute',
-    bottom:30,
-    right:35,
+
+  LogOutBtn:{
+    fontSize:'15px',
+    marginLeft:theme.spacing(1),
+  },
+
+  addSpacing:{
+    marginTop:theme.spacing(2.5)
+  },
+  bottomNavigationStyle:{
   }
 }));
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 
-function HomeIcon(props) {
-  return (
-    <SvgIcon {...props}>
-      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-    </SvgIcon>
-  );
-}
+
 
 
 function AllTestIcon(props){
@@ -175,15 +165,18 @@ function LogOutBtn(props){
     )
 }
 
-
-
-
-export default function StickyFooter() {
+ function StickyFooter(props) {
+    
+  
     const classes = useStyles();
-    const classeLogout = AbsoluteLogOut();
-    const [openNewTest, setOpen] = React.useState(true);
+    const [openNewTest, setOpen] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [value, setValue] = React.useState(0);
 
+    /** function update navigation state */
+    function handleNavigationChange(newValue) {
+      setValue(newValue);
+    }
     /** function handles the Open new test Modal */
   function handleClickOpenNewTest() {
     setOpen(true);
@@ -200,50 +193,16 @@ export default function StickyFooter() {
     }
     const open = Boolean(anchorEl);
 
-  /** stick footer */
-function FormRow() {
-    return (
-      <React.Fragment>
-
-        <Grid item xs={4}>
-           <Link color="inherit" href="/">
-               <Paper className={classes.paper}>
-                 <HomeIcon className={classes.icon} color="primary" />
-                  <Typography variant="body2" color="textSecondary">HOME 
-                        </Typography>
-  
-                  </Paper>   
-           </Link>
-        </Grid>
+    if(!firebase.getCurrentUsername()){
+      //not logged in 
     
-        <Grid item xs={4}>
-           <Link color="inherit" href="/">
-               <Paper className={classes.paper}>
-                 <AllTestIcon className={classes.icon} color="primary" />
-                  <Typography variant="body2" color="textSecondary">ALL TESTS 
-                        </Typography>
-  
-                  </Paper>   
-           </Link>
-        </Grid>
-
-        <Grid item xs={4}>
-           <Link color="inherit" href="/">
-               <Paper className={classes.paper}>
-                 <ProfileIcon className={classes.icon} color="primary" />
-                  <Typography variant="body2" color="textSecondary">PROFILE 
-                        </Typography>
-                  </Paper>   
-           </Link>
-        </Grid>
-      </React.Fragment>
-    );
-  }
-
+      props.history.replace('/signin')
+      return null;
+    }
   return (
     <div className={classes.root}>  
     
-           <Dialog fullScreen open={openNewTest} onClose={handleCloseNewTest} TransitionComponent={Transition}>
+      <Dialog fullScreen open={openNewTest} onClose={handleCloseNewTest} TransitionComponent={Transition}>
         <AppBar className={classes.appBar}>
           <Toolbar>
             <IconButton edge="start" color="inherit" onClick={handleCloseNewTest} aria-label="close">
@@ -258,15 +217,56 @@ function FormRow() {
       </Dialog>
       
       <div className={classes.WelcomebackUserStyle}>
-          <Typography variant="body2" color="textSecondary">Bonjour Lilly!</Typography>
+          <Typography variant="body2" color="textSecondary">Welcome {firebase.getCurrentUsername()}</Typography>
       </div>
     
+      <div className={classes.logOutDiv}>
+        <Link color="inherit" 
+            aria-owns={open ? 'mouse-over-popover': undefined}
+            aria-haspopup = "true"
+            onMouseEnter = {handlePopoverOpen}
+            onMouseLeave = {handlePopoverClose}
+            >
+          
+          <Typography variant="body2" color="textSecondary">
+            logout
+            <LogOutBtn 
+            className={classes.LogOutBtn} color="primary" 
+            onClick={logout}/>
+          </Typography>
+      
+
+          <Popover id="mouse-over-popover"
+                    className={classes.popover}
+                    classes={{
+                      paper:classes.Logoutpaper,
+                    }}
+              open={open}
+              anchorEl={anchorEl}
+            
+              anchorOrigin ={{
+                vertical:'bottom',
+                horizontal:'left',
+              }}
+              transformOrigin = {{
+                vertical:'top',
+                horizontal:'left',
+              }}
+              onClose={handlePopoverClose}
+              disableRestoreFocus> you are about to logout from app!
+            </Popover>
+        </Link>
+        </div>
+    
+      
       <div className={classes.middleContainer}>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
             <Link color="inherit"  >
               <Paper className={classes.paper1}>
-                                     <Fab color="primary" aria-label="add" className={classes.AddNewTestfab} onClick={handleClickOpenNewTest}>
+                                     <Fab color="primary" aria-label="add"
+                                      className={classes.AddNewTestfab} 
+                                      onClick={handleClickOpenNewTest}>
                                   <AddIcon />
                                     </Fab>
                                      <Typography variant="body1" color="textSecondary">Start New Test 
@@ -290,50 +290,37 @@ function FormRow() {
           </Grid>
       </div>
 
+      <div className={classes.addSpacing}></div>        
+      <div className={classes.addSpacing}></div>     
+      <div className={classes.addSpacing}></div>  
 
+              <CssBaseline />
+     <footer className={classes.footer}>
+       <Box boxShadow={3}>
+        <BottomNavigation 
+            value={value} 
+            onChange={(event, newValue) =>{
+              setValue(newValue);
+            }} 
+            showLabels
+            className={classes.bottomNavigationStyle}>
+              <BottomNavigationAction label="Home" icon={<HomeIcon className={classes.icon} color="primary" />} />
+              <BottomNavigationAction label="All Tests"icon={<AllTestIcon className={classes.icon} color="primary" />} />
+              <BottomNavigationAction label="Profile"  icon={ <ProfileIcon className={classes.icon} color="primary" />} />
+        </BottomNavigation>    
+        </Box>
+     </footer>
+     
 
-
-
-
-
-        <Link color="inherit" href="/" 
-            aria-owns={open ? 'mouse-over-popover': undefined}
-            aria-haspopup = "true"
-            onMouseEnter = {handlePopoverOpen}
-            onMouseLeave = {handlePopoverClose}
-            >
-            <LogOutBtn className={classeLogout.LogOutBtn} color="primary" />
-            <h6 className={classeLogout.LogOutTxt}>LogOut</h6>
-
-          <Popover id="mouse-over-popover"
-                    className={classes.popover}
-                    classes={{
-                      paper:classes.Logoutpaper,
-                    }}
-              open={open}
-              anchorEl={anchorEl}
-            
-              anchorOrigin ={{
-                vertical:'bottom',
-                horizontal:'left',
-              }}
-              transformOrigin = {{
-                vertical:'top',
-                horizontal:'left',
-              }}
-              onClose={handlePopoverClose}
-              disableRestoreFocus> you are about to logout from app, Remember to save all test!
-            </Popover>
-        </Link>
-      
-      <CssBaseline />
-      <footer className={classes.footer}>
-       <Grid container spacing={1}>
-        <Grid container item xs={12} spacing={3}>
-          <FormRow />
-        </Grid>
-      </Grid>
-      </footer>
+  
     </div>
   );
+
+  async function logout(){
+    await firebase.logout()
+    props.history.push('/signin')
+  }
 }
+
+
+export default withRouter(StickyFooter)

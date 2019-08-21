@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles,makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -8,11 +8,19 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
-
+import TextField from '@material-ui/core/TextField';
+import LetterOnlyDialog from './LettersOnly';
 
 const useStyles = makeStyles(theme => ({
     root: {
       width: '99%',
+    },
+    textRoot:{
+      display: 'flex',
+      flexWrap: 'wrap',
+    },
+    TextFieldmargin: {
+      margin: theme.spacing(1),
     },
     backButton: {
       marginRight: theme.spacing(1),
@@ -41,14 +49,14 @@ const useStyles = makeStyles(theme => ({
       fontSize:'20px',
       padding:theme.spacing(8),
       '&:hover': {
-                background: '#283593',
+                background:'#283593',
                 color:'white',
-               
              },
     },
-     
     mainGridForSelectTestMode:{
             marginTop: theme.spacing(1),
+            paddingLeft:'30px',
+            paddingRight:'30px',
     },
     paperForSelectAgeGroup: {
       textAlign: 'center',
@@ -58,27 +66,43 @@ const useStyles = makeStyles(theme => ({
       margin:'auto',
       fontWeight:'800',
       background:'#E8EAF6',
-      fontSize:'30px',
-      padding:theme.spacing(8),
+      fontSize:'20px',
+      padding:theme.spacing(4),
       '&:hover': {
                 background: '#283593',
                 color:'white',
              },
     },
-     
     mainGridForSelectAge:{
-            marginTop: theme.spacing(8),
+            marginTop: theme.spacing(5),
+            paddingLeft:'10%',
+            paddingRight:'10%',
     },
-   
+    gridForCandidatename:{
+      marginTop: theme.spacing(8),
+    },
     chip: {
-      
       margin: theme.spacing(1),
     },
+    textField: {
+      marginLeft: theme.spacing(1),
+      marginRight: theme.spacing(1),
+    },
+    container: {
+      display: 'flex',
+      flexWrap: 'wrap',
+    },
+    mainGridContainer:{
+      display:'flex',
+      justifyContent:'center',
+      alignItems:'center',
+     
+    }
 
   }));
 
   function getSteps() {
-    return ['Select Age Group', 'Select Test Mode'];
+    return ['Select Age Group', 'Select Test Mode',`Enter Candidate's Full Name`];
   }
   
 
@@ -87,20 +111,40 @@ const useStyles = makeStyles(theme => ({
     /** states */
     const [activeStep, setActiveStep] = React.useState(0);
    
+    /** function creates input field for candidates full name */
+    const ValidationTextField = withStyles({
+      root: {
+        '& input:valid + fieldset': {
+          borderColor: 'green',
+          borderWidth: 2,
+        },
+        '& input:invalid + fieldset': {
+          borderColor: 'red',
+          borderWidth: 2,
+        },
+        '& input:valid:focus + fieldset': {
+          borderLeftWidth: 6,
+          padding: '4px !important', // override inline-style
+        },
+      },
+    })(TextField);
     
 
     const steps = getSteps();
   
 /** states tp manage the selections made by user */
-/** age  4 - 5 */
-    const [ageGroup4_5Status, setAgeGroup4_5Status] = React.useState(false);
-    const [chipData4_5, setChipData4_5] = React.useState(false)
-/** age  6 - 8 */
-    const [ageGroup6_8Status, setAgeGroup6_8Status] = React.useState(false);
-    const [chipData6_8, setChipData6_8] = React.useState(false)
-/** age  9 - 12 */
-    const [ageGroup9_12Status, setAgeGroup9_12Status] = React.useState(false);
-    const [chipData9_12, setChipData9_12] = React.useState(false)
+/** age  5 - 6 */
+    const [ageGroup5_6Status, setageGroup5_6Status] = React.useState(false);
+    const [chipData5_6, setchipData5_6] = React.useState(false)
+/** age  7 - 8 */
+    const [ageGroup7_8Status, setageGroup7_8Status] = React.useState(false);
+    const [chipData7_8, setchipData7_8] = React.useState(false)
+/** age  9 - 10 */
+    const [ageGroup9_10Status, setageGroup9_10Status] = React.useState(false);
+    const [chipData9_10, setchipData9_10] = React.useState(false)
+/** age  11 - 12 */
+    const [ageGroup11_12Status, setageGroup11_12Status] = React.useState(false);
+    const [chipData11_12, setchipData11_12] = React.useState(false)
 /** full test */
     const [fullTestStatus, setFullTestStatus]= React.useState(false);
     const [chipDataFullTest, setChipFullTest] = React.useState(false);
@@ -176,52 +220,74 @@ function handleNumberOnlyChip(){
 }
 /**----------------------------------------------------------------------------------- */
 /** handle setAgeGroup___Status */
-function handleSetAgeGroup4_5Status(){
-    setAgeGroup4_5Status(!ageGroup4_5Status)
-    setChipData4_5(!chipData4_5) 
-    setAgeGroup6_8Status(false)
-    setChipData6_8(false) 
-    setAgeGroup9_12Status(false)
-    setChipData9_12(false) 
+function handleSetageGroup5_6Status(){
+    setageGroup5_6Status(!ageGroup5_6Status)
+    setchipData5_6(!chipData5_6) 
+    setageGroup7_8Status(false)
+    setchipData7_8(false) 
+    setageGroup9_10Status(false)
+    setchipData9_10(false) 
+    setageGroup11_12Status(false)
+    setchipData11_12(false)
 }
 /** chip component */
-function handleDelete4_5(){
-    setAgeGroup4_5Status(!ageGroup4_5Status)
-    setChipData4_5(!chipData4_5) 
+function handleDelete5_6(){
+    setageGroup5_6Status(!ageGroup5_6Status)
+    setchipData5_6(!chipData5_6) 
 }
 
 /** handle setAgeGroup___Status */
-function handleSetAgeGroup6_8Status(){
-  setAgeGroup6_8Status(!ageGroup6_8Status)
-  setChipData6_8(!chipData6_8) 
-  setAgeGroup4_5Status(false)
-  setChipData4_5(false) 
-  setAgeGroup9_12Status(false)
-  setChipData9_12(false) 
+function handleSetageGroup7_8Status(){
+  setageGroup7_8Status(!ageGroup7_8Status)
+  setchipData7_8(!chipData7_8) 
+  setageGroup5_6Status(false)
+  setchipData5_6(false) 
+  setageGroup9_10Status(false)
+  setchipData9_10(false) 
+  setageGroup11_12Status(false)
+  setchipData11_12(false)
 }
 /** chip component */
-function handleDelete6_8(){
-  setAgeGroup6_8Status(!ageGroup6_8Status)
-  setChipData6_8(!chipData6_8) 
+function handleDelete7_8(){
+  setageGroup7_8Status(!ageGroup7_8Status)
+  setchipData7_8(!chipData7_8) 
 }
 
 /** handle setAgeGroup___Status */
-function handleSetAgeGroup9_12Status(){
-  setAgeGroup9_12Status(!ageGroup9_12Status)
-  setChipData9_12(!chipData9_12) 
-  setAgeGroup4_5Status(false)
-  setChipData4_5(false) 
-  setAgeGroup6_8Status(false)
-  setChipData6_8(false) 
+function handleSetageGroup9_10Status(){
+  setageGroup9_10Status(!ageGroup9_10Status)
+  setchipData9_10(!chipData9_10) 
+  setageGroup5_6Status(false)
+  setchipData5_6(false) 
+  setageGroup7_8Status(false)
+  setchipData7_8(false) 
+  setchipData11_12(false)
+  setageGroup11_12Status(false)
 }
 /** chip component */
-function handleDelete9_12(){
-  setAgeGroup9_12Status(!ageGroup9_12Status)
-  setChipData9_12(!chipData9_12) 
+function handleDelete9_10(){
+  setageGroup9_10Status(!ageGroup9_10Status)
+  setchipData9_10(!chipData9_10) 
 }
 
+
+/** handle setAgeGroup___Status */
+function handleSetageGroup11_12Status(){
+  setageGroup9_10Status(false)
+  setchipData9_10(false) 
+  setageGroup5_6Status(false)
+  setchipData5_6(false) 
+  setageGroup7_8Status(false)
+  setchipData7_8(false) 
+  setchipData11_12(!chipData11_12)
+  setageGroup11_12Status(!ageGroup11_12Status)
+}
+/** chip component */
+function handleDelete11_12(){
+  setageGroup11_12Status(!ageGroup11_12Status)
+  setchipData11_12(!chipData11_12) 
+}
 /** handle selection mode */
-/** handle setAgeGroup___Status */
 
 
 
@@ -273,7 +339,8 @@ function SelectTestMode(){
 function SelectAgeGroup(){
   return (
     <React.Fragment>
-          <Grid className={classes.mainGridForSelectAge} spacing={3}
+      <div className={classes.mainGridContainer}> 
+          <Grid className={classes.mainGridForSelectAge} spacing={1}
                 container
                 direction="row"
                 justify="center"
@@ -281,25 +348,58 @@ function SelectAgeGroup(){
                     <Grid item xs={12} sm={3}> 
                         <Paper 
                         className={classes.paperForSelectAgeGroup} 
-                        onClick ={handleSetAgeGroup4_5Status}
-                        
-                        > 4 - 5
+                        onClick ={handleSetageGroup5_6Status}
+                        > 5 - 6
                        </Paper>
                         </Grid>
                     <Grid item xs={12} sm={3} > 
                         <Paper className={classes.paperForSelectAgeGroup}
-                          onClick={handleSetAgeGroup6_8Status}
-                        >  6 - 8</Paper>
+                          onClick={handleSetageGroup7_8Status}
+                        >  7 - 8</Paper>
                     </Grid>
                     <Grid item xs={12} sm={3} > 
                         <Paper
                          className={classes.paperForSelectAgeGroup}
-                         onClick={handleSetAgeGroup9_12Status}
-                         >9 - 12 </Paper>
+                         onClick={handleSetageGroup9_10Status}
+                         >9 - 10 </Paper>
                     </Grid>
-                </Grid>
+                     <Grid item xs={12} sm={3} > 
+                        <Paper
+                         className={classes.paperForSelectAgeGroup}
+                         onClick={handleSetageGroup11_12Status}
+                         >11 - 12 </Paper>
+                    </Grid>
+           </Grid>
+        </div>
     </React.Fragment>
   )
+}
+/** input field to enter childs full name */
+function EnterChilddName(){
+  return (
+          <Grid className={classes.gridForCandidatename}
+                container
+                direction="row"
+                justify="center"
+                alignItems="center">    
+                      <form className={classes.textRoot} noValidate>
+                      <ValidationTextField
+                        className={classes.TextFieldmargin}
+                        label="FirstName"
+                        required
+                        variant="outlined"
+                        id="validation-outlined-input"
+                      />
+                       <ValidationTextField
+                        className={classes.TextFieldmargin}
+                        label="LastName"
+                        required
+                        variant="outlined"
+                        id="validation-outlined-input"
+                      />
+                   </form>
+                </Grid>
+  );
 }
   /** function returns different select for user to select from*/
   function getStepContent(stepIndex) {
@@ -308,9 +408,11 @@ function SelectAgeGroup(){
         return (
             <div><SelectAgeGroup /></div>);
       case 1:
-        return (<div><SelectTestMode /></div>)
+        return (<div><SelectTestMode /></div>);
+      case 2:
+        return (<div><EnterChilddName /></div> );
       default:
-        return 'Uknown stepIndex';
+        return 'Unknown stepIndex';
     }
   }
   
@@ -334,17 +436,57 @@ function SelectAgeGroup(){
       setChipNumbersOnly(false)
       setWordsOnlyStatus(false)
       setChipWordsOnly(false)
-      setAgeGroup9_12Status(false)
-      setChipData9_12(false) 
-      setAgeGroup4_5Status(false)
-      setChipData4_5(false) 
-      setAgeGroup6_8Status(false)
-      setChipData6_8(false) 
+      setageGroup9_10Status(false)
+      setchipData9_10(false) 
+      setageGroup5_6Status(false)
+      setchipData5_6(false) 
+      setageGroup7_8Status(false)
+      setchipData7_8(false) 
+      setageGroup11_12Status(false)
+      setchipData11_12(false)
     }
   
+    /** function handles the button proceed to test
+     *  based on user selection function handles what test dialog is opened
+     *  4 different dialogs determined by two selections made from age group and test mode
+     */
+    const [openLetterOnlyDialog, SetOpenLetterOnlyDialog] = React.useState(false)
+     function handleProceedToTest(){
+       if(lettersTestStatus === true){
+          SetOpenLetterOnlyDialog(true);
+          console.log( `letters only clicked`);
+     }
+     handleSelectedAge();
+    }
+     function handleCloseLettersOnlyDialog(){
+      SetOpenLetterOnlyDialog(false);
+    }
+
+    //we need to pass the selected age as props to selected type of test
+    const [selectedAgeGroup, setSelectedAgeGroup] = React.useState("");
+    function handleSelectedAge(){
+      if(ageGroup5_6Status === true){
+        setSelectedAgeGroup("5-6")
+      }
+      if(ageGroup7_8Status === true){
+        setSelectedAgeGroup("7-8")
+      }
+      if(ageGroup9_10Status === true){
+        setSelectedAgeGroup("9-10")
+      }
+      if(ageGroup11_12Status === true){
+        setSelectedAgeGroup("11-12")
+      }
+    }
+       
+
     return (
       <div className={classes.root}>
-          
+         {/**the test mode to display is dependent on user selection and triggered by proceed to test*/}
+         <div> {
+           <LetterOnlyDialog ageSelected={selectedAgeGroup} open={openLetterOnlyDialog} close={handleCloseLettersOnlyDialog}/>
+
+         }</div>
         <Stepper activeStep={activeStep} alternativeLabel>
           {steps.map(label => (
             <Step key={label}>
@@ -354,26 +496,33 @@ function SelectAgeGroup(){
         </Stepper>
 
         <div className={classes.chipComponent}>
-                       {ageGroup4_5Status && <Chip
-                              onDelete={handleDelete4_5}
+                       {ageGroup5_6Status && <Chip
+                              onDelete={handleDelete5_6}
                               className={classes.chip}
                               color="primary"
                               icon={<FaceIcon />}
-                              label="4 - 5"></Chip>
+                              label="5 - 6"></Chip>
                         }
-                         {ageGroup6_8Status && <Chip
-                              onDelete={handleDelete6_8}
+                         {ageGroup7_8Status && <Chip
+                              onDelete={handleDelete7_8}
                               className={classes.chip}
                               color="primary"
                               icon={<FaceIcon />}
-                              label="6 - 8"></Chip>
+                              label="7 - 8"></Chip>
                         }
-                         {ageGroup9_12Status && <Chip
-                              onDelete={handleDelete9_12}
+                         {ageGroup9_10Status && <Chip
+                              onDelete={handleDelete9_10}
                               className={classes.chip}
                               color="primary"
                               icon={<FaceIcon />}
-                              label="9 - 12"></Chip>
+                              label="9 - 10"></Chip>
+                        }
+                         {ageGroup11_12Status && <Chip
+                              onDelete={handleDelete11_12}
+                              className={classes.chip}
+                              color="primary"
+                              icon={<FaceIcon />}
+                              label="11 - 12"></Chip>
                         }
                         {/**--------------------------test mode selection----------------------------------------- */}
                         {fullTestStatus && <Chip
@@ -410,13 +559,13 @@ function SelectAgeGroup(){
         <div>
           {activeStep === steps.length ? (
             <div className={classes.btnBelowSelectables}>
-                <Grid   
+                <Grid  className = {classes.mainGridForSelectAge}
                    container
                    direction="row"
                    justify="center"
                    alignItems="center">
               <Button onClick={handleReset}>Reset</Button>
-              <Button variant="contained" color="primary">Proceed to Test</Button>
+              <Button variant="contained" color="primary" onClick={handleProceedToTest}>Proceed to Test</Button>
               </Grid>
             </div>
               ) : (

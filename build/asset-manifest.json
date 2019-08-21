@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "//github.com/lmschw/StressFreeLearning.git/static/css/main.9d43e2fd.chunk.css",
+    "main.js": "//github.com/lmschw/StressFreeLearning.git/static/js/main.b404a8bd.chunk.js",
+    "main.js.map": "//github.com/lmschw/StressFreeLearning.git/static/js/main.b404a8bd.chunk.js.map",
+    "runtime~main.js": "//github.com/lmschw/StressFreeLearning.git/static/js/runtime~main.9824ccb3.js",
+    "runtime~main.js.map": "//github.com/lmschw/StressFreeLearning.git/static/js/runtime~main.9824ccb3.js.map",
+    "static/js/2.1756eca6.chunk.js": "//github.com/lmschw/StressFreeLearning.git/static/js/2.1756eca6.chunk.js",
+    "static/js/2.1756eca6.chunk.js.map": "//github.com/lmschw/StressFreeLearning.git/static/js/2.1756eca6.chunk.js.map",
+    "index.html": "//github.com/lmschw/StressFreeLearning.git/index.html",
+    "precache-manifest.de42af11f3be73f1d90f46f27008cf0d.js": "//github.com/lmschw/StressFreeLearning.git/precache-manifest.de42af11f3be73f1d90f46f27008cf0d.js",
+    "service-worker.js": "//github.com/lmschw/StressFreeLearning.git/service-worker.js",
+    "static/css/main.9d43e2fd.chunk.css.map": "//github.com/lmschw/StressFreeLearning.git/static/css/main.9d43e2fd.chunk.css.map"
+  }
+}

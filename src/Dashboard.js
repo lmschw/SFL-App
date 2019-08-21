@@ -1,16 +1,16 @@
 import React,{ Component } from 'react';
+import  StickFooter  from './components/StickyFooter';
 import {withRouter} from 'react-router-dom';
-import firebase from './firebase';
-import Dashboard from './Dashboard';
-function Home(props){
+
+function Dashboard(props){
 
     return(
 /** note most components are placed inside the StickFooter component*/
         <div>
-             <Dashboard />
+                <StickFooter />
         </div>       
 
     );
 }
 
-export default withRouter(Home)
+export default withRouter(Dashboard)
